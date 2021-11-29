@@ -4,8 +4,11 @@
  * and open the template in the editor.
  */
 package javaapplication1;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 //import org.json.simple.JSONObject;
@@ -21,11 +24,13 @@ public class Dialog extends javax.swing.JDialog {
     /**
      * Creates new form Dialog
      */
+     private static FileWriter file;
     public Dialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
          String nazev = jTextArea2.getText();
         String text = jTextArea1.getText();
+        
     }
 
     /**
@@ -55,14 +60,14 @@ public class Dialog extends javax.swing.JDialog {
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
 
-        jButton1.setText("P�idej pozn�mku");
+        jButton1.setText("Pridej poznamku");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Zru�it");
+        jButton2.setText("Zrusit");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -81,20 +86,21 @@ public class Dialog extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(76, 76, 76)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton1))
+                        .addGap(133, 133, 133)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGap(76, 76, 76)
+                            .addComponent(jButton2)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton1))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGap(89, 89, 89)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(107, 107, 107)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(133, 133, 133)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(124, Short.MAX_VALUE))
+                        .addGap(120, 120, 120)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(111, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -127,6 +133,9 @@ public class Dialog extends javax.swing.JDialog {
         
         String nazev = jTextArea2.getText();
         String text = jTextArea1.getText();
+        
+        json();
+        dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -190,19 +199,49 @@ public class Dialog extends javax.swing.JDialog {
          
          jTextArea2.setText("Nazev");
     }
-    public void json() throws IOException
-    {
-        String nazev = jTextArea2.getText();
-        String text = jTextArea1.getText();
-        JSONObject obj = new JSONObject();
-         //obj.put("firstname",text);
-         //JSONArray list = new JSONArray();
-         //list.add(obj);
-         
-         try(FileWriter file = new FileWriter("emp.json")){
-             
-         }
-         
+     public void clear(){
+         jTextArea1.setText(" ");
+         jTextArea2.setText("nazev");
+     }
+    public void json(){
+    
+     JSONObject obj = new JSONObject();
+        obj.put("Název", jTextArea2.getText());
+        obj.put("Obsah", jTextArea1.getText());
+        obj.put("Datum", jLabel1.getText());
+        
+        try {
+ 
+            // Constructs a FileWriter given a file name, using the platform's default charset
+            File f = new File("poznamky.txt");
+            
+            file = new FileWriter(f);
+            PrintWriter pw = new PrintWriter(file);
+            System.out.println("Souábot "+ f.getAbsolutePath());
+           // file.write(obj.toJSONString());
+            pw.write(obj.toJSONString());
+            
+            CrunchifyLog("Successfully Copied JSON Object to File...");
+            CrunchifyLog("\nJSON Object: " + obj);
+ 
+        } catch (IOException e) {
+            e.printStackTrace();
+ 
+        } finally {
+ 
+            try {
+               file.flush();
+               
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        
+    
+    }
+    static public void CrunchifyLog(String str) {
+        System.out.println(str);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

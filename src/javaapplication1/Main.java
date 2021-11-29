@@ -102,7 +102,7 @@ public class Main implements Runnable{
 		
 		monthComboBox.setSelectedIndex(calendarDate.getMonth().ordinal());
 		dayField = new JTextField(2);
-		dayField.setText(Integer.toString(calendarDate.getDayOfMonth()));
+		dayField.setText(Integer.toString(calendarDate.getDayOfMonth()-1));
 		yearField = new JTextField(4);
 		
 		yearField.setText(Integer.toString(calendarDate.getYear()));
@@ -215,6 +215,8 @@ public class Main implements Runnable{
                                 else{
                                 System.out.println("Vlo� pozn�mku");
                                  dialog.setVisible(true);
+                                 dialog.clear();
+                                 
                                 }
                                     }
                                       
@@ -269,7 +271,7 @@ public class Main implements Runnable{
 	}
         
         //vypln?n� ok�nek datumem
-	private void fillDays(LocalDate monthDate, int year, int month, int day) {
+	private void fillDays(LocalDate monthDate , int year, int month, int day) {
 		for (int j = 0; j < dayLabell.length ; j++) {
 			for (int i = 0; i < dayLabell[j].length; i++) {
 				int calMonth = monthDate.getMonth().ordinal();
@@ -277,9 +279,9 @@ public class Main implements Runnable{
 				dayLabell[j][i].getParent().setBackground(backgroundColor);
 				dayLabell[j][i].setText("");
 				if (year == calYear && month == calMonth) {
-					int calDay = monthDate.getDayOfMonth();
+					int calDay = monthDate.getDayOfMonth() ;
 					dayLabell[j][i].setText(Integer.toString(calDay));
-					if (day == calDay) {
+					if (day == calDay ) {
 						dayLabell[j][i].getParent().setBackground(Color.YELLOW);
 					} 
 				}
