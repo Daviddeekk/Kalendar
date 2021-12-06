@@ -5,8 +5,10 @@
  */
 package javaapplication1;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -20,17 +22,17 @@ import org.json.simple.JSONObject;
  * @author Danek_David
  */
 public class Dialog extends javax.swing.JDialog {
-
+ private VsechnyPoznamky poznamky;
     /**
      * Creates new form Dialog
      */
      private static FileWriter file;
-    public Dialog(java.awt.Frame parent, boolean modal) {
+    public Dialog(java.awt.Frame parent, boolean modal, VsechnyPoznamky poznamky) {
         super(parent, modal);
         initComponents();
          String nazev = jTextArea2.getText();
         String text = jTextArea1.getText();
-        
+        this.poznamky = poznamky;
     }
 
     /**
@@ -171,7 +173,7 @@ public class Dialog extends javax.swing.JDialog {
             public void run() {
                 
               
-                Dialog dialog = new Dialog(new javax.swing.JFrame(), true);
+                Dialog dialog = new Dialog(new javax.swing.JFrame(), true, null);
               
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
@@ -209,35 +211,10 @@ public class Dialog extends javax.swing.JDialog {
         obj.put("Název", jTextArea2.getText());
         obj.put("Obsah", jTextArea1.getText());
         obj.put("Datum", jLabel1.getText());
-        
-        try {
+        poznamky.uloz(obj);
+     
+       
  
-            // Constructs a FileWriter given a file name, using the platform's default charset
-            File f = new File("poznamky.txt");
-            
-            file = new FileWriter(f);
-            PrintWriter pw = new PrintWriter(file);
-            System.out.println("Souábot "+ f.getAbsolutePath());
-           // file.write(obj.toJSONString());
-            pw.write(obj.toJSONString());
-            
-            CrunchifyLog("Successfully Copied JSON Object to File...");
-            CrunchifyLog("\nJSON Object: " + obj);
- 
-        } catch (IOException e) {
-            e.printStackTrace();
- 
-        } finally {
- 
-            try {
-               file.flush();
-               
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
-        
     
     }
     static public void CrunchifyLog(String str) {
