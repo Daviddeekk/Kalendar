@@ -48,13 +48,14 @@ public class Main implements Runnable {
 
     Dialog dialog;
     Poznamk p;
-    VsechnyPoznamky mojePoznamky;
+   
+    Poznamky mojePoznamky;
 
     public Main() {
          
         this.calendarDate = LocalDate.now();
-        mojePoznamky = new VsechnyPoznamky();
-        mojePoznamky.nactiPoznamky(new File("poznamky.txt"));
+        mojePoznamky = new Poznamky("poznamky.json");
+      //  mojePoznamky.nactiPoznamky(new File("poznamky.json"));
     }
 
     @Override
@@ -210,12 +211,12 @@ public class Main implements Runnable {
                         if (e.getButton() == 1) {
                             p.setVisible(true);
                             
-                           
+                         
                          
                             
 
                         } else {
-                            System.out.println("Vlo� pozn�mku");
+                            System.out.println("Vloz poznamku");
                             dialog.setVisible(true);
                             dialog.clear();
 

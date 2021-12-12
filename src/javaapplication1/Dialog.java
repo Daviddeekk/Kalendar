@@ -17,24 +17,20 @@ import org.json.simple.JSONObject;
 /**
  *
  * @author Danek_David
- *//**
- *
- * @author Danek_David
  */
 public class Dialog extends javax.swing.JDialog {
- private VsechnyPoznamky poznamky;
+ private Poznamky poznamky;
     /**
      * Creates new form Dialog
      */
      private static FileWriter file;
-    public Dialog(java.awt.Frame parent, boolean modal, VsechnyPoznamky poznamky) {
+    public Dialog(java.awt.Frame parent, boolean modal, Poznamky poznamky) {
         super(parent, modal);
         initComponents();
          String nazev = jTextArea2.getText();
         String text = jTextArea1.getText();
         this.poznamky = poznamky;
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -188,8 +184,6 @@ public class Dialog extends javax.swing.JDialog {
             }
         });
     }
-
-    
      public void setMesic(String newMesic, int year, int denn){
         
         String mesic = newMesic;
@@ -207,13 +201,15 @@ public class Dialog extends javax.swing.JDialog {
      }
     public void json(){
     
-     JSONObject obj = new JSONObject();
+    /* JSONObject obj = new JSONObject();
         obj.put("Název", jTextArea2.getText());
         obj.put("Obsah", jTextArea1.getText());
-        obj.put("Datum", jLabel1.getText());
-        poznamky.uloz(obj);
-     
-       
+        obj.put("Datum", jLabel1.getText());*/
+       // poznamky.uloz(obj);
+       Poznamka poznamka = new Poznamka(jTextArea2.getText(),jTextArea1.getText(),jLabel1.getText());
+       Poznamky poznamky = new Poznamky("poznamky.json");
+       poznamky.pridejPoznamku(poznamka);
+       poznamky.getPoznamkaByDatum(jLabel1.getText());
  
     
     }
