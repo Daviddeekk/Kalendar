@@ -206,10 +206,11 @@ public class Dialog extends javax.swing.JDialog {
         obj.put("Obsah", jTextArea1.getText());
         obj.put("Datum", jLabel1.getText());*/
        // poznamky.uloz(obj);
+    
        Poznamka poznamka = new Poznamka(jTextArea2.getText(),jTextArea1.getText(),jLabel1.getText());
-       Poznamky poznamky = new Poznamky("poznamky.json");
-       poznamky.pridejPoznamku(poznamka);
-       poznamky.getPoznamkaByDatum(jLabel1.getText());
+     
+       poznamky.pridejPoznamku(poznamka); //zapise do souboru i do arraylistu
+    
  
     
     }

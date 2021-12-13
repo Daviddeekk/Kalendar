@@ -55,12 +55,14 @@ public class Main implements Runnable {
          
         this.calendarDate = LocalDate.now();
         mojePoznamky = new Poznamky("poznamky.json");
+        mojePoznamky.getPoznamkyAll();
+       
       //  mojePoznamky.nactiPoznamky(new File("poznamky.json"));
     }
 
     @Override
     public void run() {
-
+ 
         JFrame frame = new JFrame("Calendar");
         dialog = new Dialog(frame, true, mojePoznamky);
         dialog.setResizable(false);
