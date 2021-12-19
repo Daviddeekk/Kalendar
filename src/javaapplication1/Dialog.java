@@ -201,11 +201,7 @@ public class Dialog extends javax.swing.JDialog {
      }
     public void json(){
     
-    /* JSONObject obj = new JSONObject();
-        obj.put("Název", jTextArea2.getText());
-        obj.put("Obsah", jTextArea1.getText());
-        obj.put("Datum", jLabel1.getText());*/
-       // poznamky.uloz(obj);
+   
     
        Poznamka poznamka = new Poznamka(jTextArea2.getText(),jTextArea1.getText(),jLabel1.getText());
      
@@ -215,7 +211,7 @@ public class Dialog extends javax.swing.JDialog {
     
     }
     static public void CrunchifyLog(String str) {
-        System.out.println(str);
+        //System.out.println(str);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

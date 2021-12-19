@@ -5,20 +5,53 @@
  */
 package javaapplication1;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import static javax.swing.SwingConstants.CENTER;
+
 /**
  *
  * @author Danek_David
  */
 public class Poznamk extends javax.swing.JDialog {
 
+    JLabel[] labels;
+
     /**
      * Creates new form Poznamk
      */
     public Poznamk(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+       
+        
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            
+            
+            
+            public void windowClosing(WindowEvent event) {
+                
+                for (int x = 0; x < labels.length; x++) {
+                    if (labels[x] != null) {
+                      labels[x].setText("");
+                       labels[x].remove(labels[x]);
+                         dispose();
+                         
+                    }
+                }
+                
+            }
+        });
         initComponents();
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -29,42 +62,29 @@ public class Poznamk extends javax.swing.JDialog {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setLabelFor(this);
         jLabel1.setText("jLabel1");
-
-        jLabel2.setText("jLabel2");
-
-        jLabel3.setText("jLabel3");
+        jLabel1.setVerifyInputWhenFocusTarget(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(104, 104, 104))
             .addGroup(layout.createSequentialGroup()
-                .addGap(58, 58, 58)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap(182, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(214, 214, 214))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(47, Short.MAX_VALUE))
+                .addContainerGap(590, Short.MAX_VALUE))
         );
 
         pack();
@@ -109,6 +129,7 @@ public class Poznamk extends javax.swing.JDialog {
                     }
                 });
                 dialog.setVisible(true);
+                
             }
         });
     }
@@ -119,19 +140,51 @@ public class Poznamk extends javax.swing.JDialog {
         jLabel1.setText(denn + ". " + mesic + year);
 
         jLabel1.paintImmediately(jLabel1.getVisibleRect());
-        System.out.println(jLabel1.getText());
+        //System.out.println(jLabel1.getText());
         this.repaint();
     }
-    /*public void load(datum, nazev, text)
-    {
-    
-        jLabel2.setText(nazev);
-        jLabel3.setText(text);
-    }*/
+
+    public void load(ArrayList<Poznamka> list) {
+       //System.out.println(poznamky);
+     
+        int i = list.size();
+        labels = new JLabel[i];
+        
+       // System.out.println(i);
+        
+     System.out.println(labels.length);
+        for (int x = 0; x < labels.length; x++) {
+            //System.out.println(list.get(1).getNazev());
+           
+    // System.out.println(labels.length);
+            labels[x] = new JLabel();
+             
+            labels[x].setBackground(Color.LIGHT_GRAY);
+            labels[x].setOpaque(true);
+            labels[x].setBounds(20, 100 * (x + 1), 500, 70);
+           
+           
+            labels[x].setText("<html>Název: " + list.get(x).getNazev() + "<br/>" + "Obsah: ." + list.get(x).getObsah() + "</html>");
+            System.out.println(labels[x].getText());
+            labels[x].paintImmediately(labels[x].getVisibleRect());
+            labels[x].repaint();
+             
+           
+            this.add(labels[x]);
+            labels[x].setVisible(true);
+        
+            
+           
+             
+          
+            
+          
+        }
+      //labels[i].repaint();
+    }
+  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     // End of variables declaration//GEN-END:variables
 }

@@ -12,6 +12,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.time.LocalDate;
+import java.util.Arrays;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -48,28 +49,28 @@ public class Main implements Runnable {
 
     Dialog dialog;
     Poznamk p;
-   
+
     Poznamky mojePoznamky;
 
     public Main() {
-         
+
         this.calendarDate = LocalDate.now();
         mojePoznamky = new Poznamky("poznamky.json");
         mojePoznamky.getPoznamkyAll();
-       
-      //  mojePoznamky.nactiPoznamky(new File("poznamky.json"));
+
+        //  mojePoznamky.nactiPoznamky(new File("poznamky.json"));
     }
 
     @Override
     public void run() {
- 
+
         JFrame frame = new JFrame("Calendar");
         dialog = new Dialog(frame, true, mojePoznamky);
         dialog.setResizable(false);
 
         p = new Poznamk(frame, true);
-        p.setResizable(false);
-
+         p.setResizable(false);
+           
         frame.add(createTitlePanel(), BorderLayout.NORTH);
         frame.add(createCalendarPanel(), BorderLayout.CENTER);
         //frame.pack();
@@ -132,6 +133,16 @@ public class Main implements Runnable {
         });
 
         JButton print = new JButton("Print to pdf");
+        print.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                p.load(mojePoznamky.getPoznamkyAll());
+                
+                //System.out.println(p.load(mojePoznamky.getPoznamkyAll()));
+               
+            }
+        }
+        );
 
         print.setPreferredSize(new Dimension(150, 40));
 
@@ -175,26 +186,30 @@ public class Main implements Runnable {
     //vytvo?en� ok�nek
 
     public JPanel createDayLabels() {
+
         JPanel panel = new JPanel(new GridLayout(0, DAY_NAMES.length, 5, 5));
         dayLabell = new JButton[6][DAY_NAMES.length];
         Font dayFont = panel.getFont().deriveFont(48f).deriveFont(Font.BOLD);
         for (int j = 0; j < dayLabell.length; j++) {
             for (int i = 0; i < dayLabell[j].length; i++) {
+
                 JPanel dayPanel = new JPanel(new BorderLayout());
                 //dayPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3)); //ohrani?en�
                 dayPanel.setPreferredSize(new Dimension(50, 50)); //velikost 
+                
                 dayLabell[j][i] = new JButton(" ");
                 dayLabell[j][i].setFont(dayFont);
                 dayLabell[j][i].setBackground(Color.LIGHT_GRAY);
                 dayLabell[j][i].setForeground(backgroundColor.GRAY);
                 dayLabell[j][i].setHorizontalAlignment(JButton.CENTER);
-
-                dayLabell[j][i].addMouseListener(new MouseListener() {
+                
+                dayLabell[j][i].addMouseListener(new MouseListener()
+                {
                     @Override
                     public void mouseClicked(MouseEvent e) {
 
                     }
-
+                  
                     @Override
                     public void mousePressed(MouseEvent e) {
                         JButton buttonn = (JButton) e.getSource();
@@ -207,16 +222,21 @@ public class Main implements Runnable {
 
                         dialog.setMesic(monthh, year, denn);
                         p.setMesic(monthh, year, denn);
+
+                        String celeDatum = denn + ". " + monthh + year;
                         //int den
                         //String dayy = dayLabell[j][i].get();
 
                         if (e.getButton() == 1) {
+                           
+                            p.load(mojePoznamky.getPoznamkyByDatum(celeDatum));
+                            
+                          int x =p.labels.length-1; 
+                          
                             p.setVisible(true);
                             
-                         
-                         
                             
-
+                            // System.out.println(Arrays.toString(mojePoznamky.getPoznamkyByDatum(celeDatum).toArray()));
                         } else {
                             System.out.println("Vloz poznamku");
                             dialog.setVisible(true);
@@ -288,11 +308,15 @@ public class Main implements Runnable {
                 if (year == calYear && month == calMonth) {
                     int calDay = monthDate.getDayOfMonth();
                     dayLabell[j][i].setText(Integer.toString(calDay));
+                    
                     if (day == calDay) {
                         dayLabell[j][i].getParent().setBackground(Color.YELLOW);
+                        
                     }
                 }
                 monthDate = monthDate.plusDays(1L);
+                
+                
             }
         }
     }

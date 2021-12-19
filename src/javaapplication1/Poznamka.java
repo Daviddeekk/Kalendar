@@ -45,4 +45,9 @@ public class Poznamka {
 
         return obj;
     }
+    @Override
+    public String toString (){
+        return ""+this.nazev+" "+this.obsah+ " "+this.datum;
+    
+    }
 }
