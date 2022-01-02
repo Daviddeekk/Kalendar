@@ -12,6 +12,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -88,7 +89,7 @@ public class Main implements Runnable {
         Font font = panel.getFont().deriveFont(40f).deriveFont(Font.BOLD);
         titleLabel = new JLabel(" ");
         titleLabel.setFont(font);
-
+        
         JButton previousMonthButton = new JButton("<");
         previousMonthButton.addActionListener(new ActionListener() {
             @Override
@@ -104,12 +105,13 @@ public class Main implements Runnable {
                 updateDayLabels();
             }
         });
-
+       
         monthComboBox = new JComboBox<>(MONTH_NAMES);
-
+ //System.out.println(monthComboBox);
         monthComboBox.setSelectedIndex(calendarDate.getMonth().ordinal());
+        
         dayField = new JTextField(2);
-        dayField.setText(Integer.toString(calendarDate.getDayOfMonth() - 1));
+        dayField.setText(Integer.toString(calendarDate.getDayOfMonth() ));
         yearField = new JTextField(4);
 
         yearField.setText(Integer.toString(calendarDate.getYear()));
@@ -117,6 +119,7 @@ public class Main implements Runnable {
         nextMonthButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
+                
                 int month = monthComboBox.getSelectedIndex();
                 month++;
                 //��slo m�s�ce
@@ -126,13 +129,14 @@ public class Main implements Runnable {
                     month = 0;
                 }
                 monthComboBox.setSelectedIndex(month);
+                System.out.println("updated");
                 updateDayLabels();
 
             }
 
         });
 
-        JButton print = new JButton("Print to pdf");
+        /*JButton print = new JButton("Print to pdf");
         print.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -145,12 +149,13 @@ public class Main implements Runnable {
         );
 
         print.setPreferredSize(new Dimension(150, 40));
-
+        panel.add(print);
+*/
         panel.add(previousMonthButton);
         panel.add(titleLabel);
         panel.add(nextMonthButton);
 
-        panel.add(print);
+        
 
         return panel;
     }
@@ -186,11 +191,13 @@ public class Main implements Runnable {
     //vytvo?en� ok�nek
 
     public JPanel createDayLabels() {
-
+ //System.out.println(LocalDate.getYear());
         JPanel panel = new JPanel(new GridLayout(0, DAY_NAMES.length, 5, 5));
         dayLabell = new JButton[6][DAY_NAMES.length];
         Font dayFont = panel.getFont().deriveFont(48f).deriveFont(Font.BOLD);
+       
         for (int j = 0; j < dayLabell.length; j++) {
+            
             for (int i = 0; i < dayLabell[j].length; i++) {
 
                 JPanel dayPanel = new JPanel(new BorderLayout());
@@ -199,11 +206,12 @@ public class Main implements Runnable {
                 
                 dayLabell[j][i] = new JButton(" ");
                 dayLabell[j][i].setFont(dayFont);
-                dayLabell[j][i].setBackground(Color.LIGHT_GRAY);
+               
                 dayLabell[j][i].setForeground(backgroundColor.GRAY);
                 dayLabell[j][i].setHorizontalAlignment(JButton.CENTER);
                 
                 dayLabell[j][i].addMouseListener(new MouseListener()
+                
                 {
                     @Override
                     public void mouseClicked(MouseEvent e) {
@@ -212,36 +220,27 @@ public class Main implements Runnable {
                   
                     @Override
                     public void mousePressed(MouseEvent e) {
+                        
                         JButton buttonn = (JButton) e.getSource();
                         String den = buttonn.getText();
 
                         int year = valueOf(yearField.getText().trim());    //int rok
                         String monthh = (String) monthComboBox.getSelectedItem(); //string m�s�c
                         denn = Integer.parseInt(den); //int den
+                        
                         int montt = monthComboBox.getSelectedIndex();//��slo m�s�ce
-
                         dialog.setMesic(monthh, year, denn);
                         p.setMesic(monthh, year, denn);
-
                         String celeDatum = denn + ". " + monthh + year;
-                        //int den
-                        //String dayy = dayLabell[j][i].get();
-
+                        
                         if (e.getButton() == 1) {
-                           
                             p.load(mojePoznamky.getPoznamkyByDatum(celeDatum));
-                            
-                          int x =p.labels.length-1; 
-                          
                             p.setVisible(true);
-                            
-                            
-                            // System.out.println(Arrays.toString(mojePoznamky.getPoznamkyByDatum(celeDatum).toArray()));
                         } else {
                             System.out.println("Vloz poznamku");
                             dialog.setVisible(true);
                             dialog.clear();
-
+                             updateDayLabels();
                         }
                     }
 
@@ -252,7 +251,6 @@ public class Main implements Runnable {
 
                     @Override
                     public void mouseEntered(MouseEvent e) {
-
                     }
 
                     @Override
@@ -265,15 +263,16 @@ public class Main implements Runnable {
                 panel.add(dayPanel);
             }
         }
-
         return panel;
     }
+     
+    
     //aktualizace datumu po p?epnut�
 
     public void updateDayLabels() {
         int month = monthComboBox.getSelectedIndex();
         int day = valueOf(dayField.getText().trim());
-
+       
         int year = valueOf(yearField.getText().trim());
         if (year > 0 && day > 0) {
             calendarDate = LocalDate.of(year, month + 1, day);
@@ -290,6 +289,7 @@ public class Main implements Runnable {
 
     private LocalDate getPreviousSunday(int year, int month) {
         LocalDate monthDate = LocalDate.of(year, month + 1, 1);
+       
         int weekday = monthDate.getDayOfWeek().ordinal();
         if (weekday < 6) {
             monthDate = monthDate.minusDays((long) (weekday));
@@ -301,21 +301,47 @@ public class Main implements Runnable {
     private void fillDays(LocalDate monthDate, int year, int month, int day) {
         for (int j = 0; j < dayLabell.length; j++) {
             for (int i = 0; i < dayLabell[j].length; i++) {
+                
                 int calMonth = monthDate.getMonth().ordinal();
                 int calYear = monthDate.getYear();
+            
+                
                 dayLabell[j][i].getParent().setBackground(backgroundColor);
                 dayLabell[j][i].setText("");
                 if (year == calYear && month == calMonth) {
                     int calDay = monthDate.getDayOfMonth();
                     dayLabell[j][i].setText(Integer.toString(calDay));
-                    
+                  // System.out.println(Integer.toString(calDay));
                     if (day == calDay) {
                         dayLabell[j][i].getParent().setBackground(Color.YELLOW);
                         
                     }
                 }
-                monthDate = monthDate.plusDays(1L);
+                String celeDatum = dayLabell[j][i].getText() + ". "+(String) monthComboBox.getSelectedItem()+valueOf(yearField.getText().trim());
+                //System.out.println(dayLabell[j][i].getText());
                 
+                 if (mojePoznamky.getPoznamkyByDatum(celeDatum).size() ==0){
+                     dayLabell[j][i].setBackground(Color.LIGHT_GRAY);
+                      dayLabell[j][i].repaint();
+                 }
+                 if (mojePoznamky.getPoznamkyByDatum(celeDatum).size() ==1){
+                     dayLabell[j][i].setBackground(Color.CYAN);
+                      dayLabell[j][i].repaint();
+                 }
+                 if (mojePoznamky.getPoznamkyByDatum(celeDatum).size() ==2){
+                     dayLabell[j][i].setBackground(new Color(255,102,255));
+                 }
+                  if (mojePoznamky.getPoznamkyByDatum(celeDatum).size() ==3){
+                     dayLabell[j][i].setBackground(Color.BLUE);
+                 }
+                  if (mojePoznamky.getPoznamkyByDatum(celeDatum).size() ==4){
+                     dayLabell[j][i].setBackground(new Color(153,0,153));
+                 }
+                   if (mojePoznamky.getPoznamkyByDatum(celeDatum).size() >=5){
+                     dayLabell[j][i].setBackground(Color.darkGray);
+                 }
+                monthDate = monthDate.plusDays(1L);
+               
                 
             }
         }

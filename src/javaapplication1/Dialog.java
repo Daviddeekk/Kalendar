@@ -10,6 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
+import javax.swing.text.DefaultCaret;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -20,6 +21,7 @@ import org.json.simple.JSONObject;
  */
 public class Dialog extends javax.swing.JDialog {
  private Poznamky poznamky;
+ Main m = new Main();
     /**
      * Creates new form Dialog
      */
@@ -27,7 +29,10 @@ public class Dialog extends javax.swing.JDialog {
     public Dialog(java.awt.Frame parent, boolean modal, Poznamky poznamky) {
         super(parent, modal);
         initComponents();
-         String nazev = jTextArea2.getText();
+         String nazev =  jTextField1.getText();
+         
+         
+         
         String text = jTextArea1.getText();
         this.poznamky = poznamky;
     }
@@ -45,8 +50,7 @@ public class Dialog extends javax.swing.JDialog {
         jTextArea1 = new javax.swing.JTextArea();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        jTextField1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -55,6 +59,7 @@ public class Dialog extends javax.swing.JDialog {
         jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         jTextArea1.setColumns(20);
+        jTextArea1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
 
@@ -72,10 +77,8 @@ public class Dialog extends javax.swing.JDialog {
             }
         });
 
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jTextArea2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jScrollPane2.setViewportView(jTextArea2);
+        jTextField1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jTextField1.setText("jTextField1");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -86,34 +89,33 @@ public class Dialog extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(133, 133, 133)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addGap(76, 76, 76)
-                            .addComponent(jButton2)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton1))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addGap(89, 89, 89)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(120, 120, 120)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(111, Short.MAX_VALUE))
+                        .addGap(89, 89, 89)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jTextField1)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE))))
+                .addContainerGap(86, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(71, 71, 71)
+                .addComponent(jButton2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(73, 73, 73))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(38, 38, 38)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(69, Short.MAX_VALUE))
         );
 
         pack();
@@ -124,18 +126,19 @@ public class Dialog extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       System.out.print(jTextArea2.getText());
-       
-       
-        System.out.println(jTextArea1.getText());
-        
-        String nazev = jTextArea2.getText();
-        String text = jTextArea1.getText();
-        
-        json();
-        dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+       System.out.print( jTextField1.getText());
 
+        System.out.println(jTextArea1.getText());
+
+        json();
+        
+        dispose();
+       
+    }//GEN-LAST:event_jButton1ActionPerformed
+public void json(){
+       Poznamka poznamka = new Poznamka( jTextField1.getText(),jTextArea1.getText(),jLabel1.getText());
+       poznamky.pridejPoznamku(poznamka); //zapise do souboru i do arraylistu
+    }
     /**
      * @param args the command line arguments
      */
@@ -167,15 +170,14 @@ public class Dialog extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                
-              
+               
                 Dialog dialog = new Dialog(new javax.swing.JFrame(), true, null);
               
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
                         System.exit(0);
-                        
+ 
                     }
                 });
                 dialog.setSize(300,300);
@@ -189,27 +191,17 @@ public class Dialog extends javax.swing.JDialog {
         String mesic = newMesic;
          jLabel1.setText(denn+". " + mesic + year);
          
-         jLabel1.paintImmediately(jLabel1.getVisibleRect());
+          jTextField1.paintImmediately(jLabel1.getVisibleRect());
          System.out.println(jLabel1.getText());
          this.repaint();
          
-         jTextArea2.setText("Nazev");
+         jTextField1.setText("Nazev");
     }
      public void clear(){
          jTextArea1.setText(" ");
-         jTextArea2.setText("nazev");
+          jTextField1.setText("nazev");
      }
-    public void json(){
     
-   
-    
-       Poznamka poznamka = new Poznamka(jTextArea2.getText(),jTextArea1.getText(),jLabel1.getText());
-     
-       poznamky.pridejPoznamku(poznamka); //zapise do souboru i do arraylistu
-    
- 
-    
-    }
     static public void CrunchifyLog(String str) {
         //System.out.println(str);
     }
@@ -218,8 +210,7 @@ public class Dialog extends javax.swing.JDialog {
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
+    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

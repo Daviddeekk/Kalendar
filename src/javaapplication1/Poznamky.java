@@ -77,11 +77,12 @@ public class Poznamky {
 
                 // System.out.println(jsobj.get("Datum").equals("13. December  2021")+" "+jsobj.get("Datum").toString()+" "+ jsobj.get("Nazev").toString()+" "+jsobj.get("Obsah"));
                 poznamky.add(p);
-                System.out.println(poznamky);
-                String name = "list.pdf";
-                /*PdfWriter pdfwriter = new PdfWriter(name);
-                 PdfDocument pdfdocument = new PdfDocument(pdfwriter);
-            Document document = new Document(pdfdocument);*/
+                //System.out.println(poznamky);
+             /*   String name = "list.pdf";
+                PdfWriter pdfwriter = new PdfWriter(name);
+                PdfDocument pdfdocument = new PdfDocument(pdfwriter);
+                Document document = new Document(pdfdocument);
+            */
 
             }
 
@@ -122,7 +123,7 @@ public class Poznamky {
                     Poznamka p = new Poznamka(jsobj.get("Nazev").toString(), jsobj.get("Obsah").toString(), jsobj.get("Datum").toString());
 
                     poznamky.add(p);
-                    System.out.println(poznamky);
+                    //System.out.println(poznamky);
                 }
             }
 
